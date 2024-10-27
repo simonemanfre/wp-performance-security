@@ -36,6 +36,7 @@ add_action('admin_menu', 'trp_ps_plugin_option_page');
 // Registra le impostazioni
 function trp_ps_register_settings() {
     register_setting('trp_ps_options', 'trp_remove_jquery_migrate');
+    register_setting('trp_ps_options', 'trp_jquery_in_footer');
 }
 add_action('admin_init', 'trp_ps_register_settings');
 
@@ -49,10 +50,12 @@ function trp_ps_plugin_option_page_html() {
     // Salva le impostazioni se il form è stato inviato
     if (isset($_POST['submit'])) {
         update_option('trp_remove_jquery_migrate', isset($_POST['trp_remove_jquery_migrate']) ? 1 : 0);
+        update_option('trp_jquery_in_footer', isset($_POST['trp_jquery_in_footer']) ? 1 : 0);
     }
 
     // Recupera il valore corrente
     $remove_jquery_migrate = get_option('trp_remove_jquery_migrate', 0);
+    $jquery_in_footer = get_option('trp_jquery_in_footer', 0);
     ?>
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -68,6 +71,15 @@ function trp_ps_plugin_option_page_html() {
                         </label>
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row">jQuery nel Footer</th>
+                    <td>
+                        <label>
+                            <input type="checkbox" name="trp_jquery_in_footer" value="1" <?php checked(1, $jquery_in_footer); ?>>
+                            Carica jQuery nel footer
+                        </label>
+                    </td>
+                </tr>
             </table>
             <?php submit_button(); ?>
         </form>
@@ -76,7 +88,7 @@ function trp_ps_plugin_option_page_html() {
 }
 
 // Funzione per rimuovere jQuery Migrate
-function trp_remove_jquery_migrate($scripts) {
+function trp_ps_remove_jquery_migrate($scripts) {
     if (get_option('trp_remove_jquery_migrate', 0)) {
         if (!is_admin() && isset($scripts->registered['jquery'])) {
             $script = $scripts->registered['jquery'];
@@ -86,4 +98,16 @@ function trp_remove_jquery_migrate($scripts) {
         }
     }
 }
-add_action('wp_default_scripts', 'trp_remove_jquery_migrate');
+add_action('wp_default_scripts', 'trp_ps_remove_jquery_migrate');
+
+// Funzione per spostare jQuery nel footer
+function trp_ps_move_jquery_to_footer($wp_scripts) {
+    if (get_option('trp_jquery_in_footer', 0)) {
+        if (!is_admin()) {
+            $wp_scripts->add_data('jquery', 'group', 1);
+            $wp_scripts->add_data('jquery-core', 'group', 1);
+            $wp_scripts->add_data('jquery-migrate', 'group', 1);
+        }
+    }
+}
+add_action('wp_default_scripts', 'trp_ps_move_jquery_to_footer');
