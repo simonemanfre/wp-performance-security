@@ -20,12 +20,15 @@ add_action('admin_menu', 'trp_ps_plugin_option_page');
 
 // Registra le impostazioni
 function trp_ps_register_settings() {
-    register_setting('trp_ps_options', 'trp_ps_admin_only');
     register_setting('trp_ps_options', 'trp_ps_jquery_migrate');
     register_setting('trp_ps_options', 'trp_ps_jquery_in_footer');
     register_setting('trp_ps_options', 'trp_ps_speculation_rules');
     register_setting('trp_ps_options', 'trp_ps_https_redirect');
     register_setting('trp_ps_options', 'trp_ps_deflate_cache');
+    register_setting('trp_ps_options', 'trp_ps_file_edit');
+    register_setting('trp_ps_options', 'trp_ps_manage_themes');
+    register_setting('trp_ps_options', 'trp_ps_manage_plugins');
+    register_setting('trp_ps_options', 'trp_ps_manage_updates');
     register_setting('trp_ps_options', 'trp_ps_debug_mode');
     register_setting('trp_ps_options', 'trp_ps_super_admin_users', array(
         'type' => 'array',
@@ -51,12 +54,15 @@ function trp_ps_plugin_option_page_html() {
 
     // Salva le impostazioni se il form è stato inviato
     if (isset($_POST['submit'])) {
-        update_option('trp_ps_admin_only', isset($_POST['trp_ps_admin_only']) ? 1 : 0);
         update_option('trp_ps_jquery_migrate', isset($_POST['trp_ps_jquery_migrate']) ? 1 : 0);
         update_option('trp_ps_jquery_in_footer', isset($_POST['trp_ps_jquery_in_footer']) ? 1 : 0);
         update_option('trp_ps_speculation_rules', isset($_POST['trp_ps_speculation_rules']) ? 1 : 0);
         update_option('trp_ps_https_redirect', isset($_POST['trp_ps_https_redirect']) ? 1 : 0);
         update_option('trp_ps_deflate_cache', isset($_POST['trp_ps_deflate_cache']) ? 1 : 0);
+        update_option('trp_ps_file_edit', isset($_POST['trp_ps_file_edit']) ? 1 : 0);
+        update_option('trp_ps_manage_themes', isset($_POST['trp_ps_manage_themes']) ? 1 : 0);
+        update_option('trp_ps_manage_plugins', isset($_POST['trp_ps_manage_plugins']) ? 1 : 0);
+        update_option('trp_ps_manage_updates', isset($_POST['trp_ps_manage_updates']) ? 1 : 0);
         update_option('trp_ps_debug_mode', isset($_POST['trp_ps_debug_mode']) ? 1 : 0);
 
          // Gestisci gli utenti super admin
@@ -92,6 +98,10 @@ function trp_ps_plugin_option_page_html() {
     $speculation_rules = get_option('trp_ps_speculation_rules', 0);
     $htaccess_redirect = get_option('trp_ps_https_redirect', 0);
     $deflate_cache = get_option('trp_ps_deflate_cache', 0);
+    $file_edit = get_option('trp_ps_file_edit', 0);
+    $manage_themes = get_option('trp_ps_manage_themes', 0);
+    $manage_plugins = get_option('trp_ps_manage_plugins', 0);
+    $manage_updates = get_option('trp_ps_manage_updates', 0);
     $debug_mode = get_option('trp_ps_debug_mode', 0);
     $super_admin_users = get_option('trp_ps_super_admin_users', array());
 
@@ -154,7 +164,7 @@ function trp_ps_plugin_option_page_html() {
                     <td>
                         <label>
                             <input type="checkbox" name="trp_ps_speculation_rules" value="1" <?php checked(1, $speculation_rules); ?>>
-                            Enable speculation rules
+                            Enable speculation rules with prerender on link :hover
                         </label>
                     </td>
                 </tr>
@@ -173,6 +183,42 @@ function trp_ps_plugin_option_page_html() {
                         <label>
                             <input type="checkbox" name="trp_ps_deflate_cache" value="1" <?php checked(1, $deflate_cache); ?>>
                             Enable Deflate & Cache on Apache Server
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Disable File Edit</th>
+                    <td>
+                        <label>
+                            <input type="checkbox" name="trp_ps_file_edit" value="1" <?php checked(1, $file_edit); ?>>
+                            Disable File Edit for non Super Admin users
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Disable Theme Management</th>
+                    <td>
+                        <label>
+                            <input type="checkbox" name="trp_ps_manage_themes" value="1" <?php checked(1, $manage_themes); ?>>
+                            Disable Theme Management for non Super Admin users
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Disable Plugin Management</th>
+                    <td>
+                        <label>
+                            <input type="checkbox" name="trp_ps_manage_plugins" value="1" <?php checked(1, $manage_plugins); ?>>
+                            Disable Plugin Management for non Super Admin users
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Disable Update Management</th>
+                    <td>
+                        <label>
+                            <input type="checkbox" name="trp_ps_manage_updates" value="1" <?php checked(1, $manage_updates); ?>>
+                            Disable Update Management for non Super Admin users
                         </label>
                     </td>
                 </tr>

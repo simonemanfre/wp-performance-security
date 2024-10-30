@@ -98,14 +98,14 @@ function trp_ps_edit_role_caps() {
 	} else {
 
 		//didsabilito editor tema e plugin
-		if (get_option('trp_ps_jquery_migrate', 0)) {
+		if (get_option('trp_ps_file_edit', 0)) {
             if (!defined('DISALLOW_FILE_EDIT')) {
                 define('DISALLOW_FILE_EDIT', TRUE);
             }
 		}
 
 		//remove dangerous capability for other admin
-		if (get_option('trp_ps_jquery_migrate', 0)) {
+		if (get_option('trp_ps_manage_themes', 0)) {
 			$current_user->add_cap( 'upload_themes', false );
 			$current_user->add_cap( 'install_themes', false );
 			$current_user->add_cap( 'switch_themes', false );
@@ -119,7 +119,7 @@ function trp_ps_edit_role_caps() {
 			$current_user->add_cap( 'delete_themes', true );
 		}
 
-		if (get_option('trp_ps_jquery_migrate', 0)) {
+		if (get_option('trp_ps_manage_plugins', 0)) {
 			$current_user->add_cap( 'upload_plugins', false );
 			$current_user->add_cap( 'install_plugins', false );
 			$current_user->add_cap( 'activate_plugins', false );
@@ -133,7 +133,7 @@ function trp_ps_edit_role_caps() {
 			$current_user->add_cap( 'delete_plugins', true );
 		}
 
-		if (get_option('trp_ps_jquery_migrate', 0)) {
+		if (get_option('trp_ps_manage_updates', 0)) {
 			$current_user->add_cap( 'update_plugins', false );
 			$current_user->add_cap( 'update_core', false );
 			$current_user->add_cap( 'update_themes', false );
