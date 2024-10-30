@@ -45,7 +45,7 @@ function trp_ps_sanitize_super_admin_users($users) {
 // Contenuto pagina opzioni
 function trp_ps_plugin_option_page_html() {
     // Verifica i permessi
-    if (!current_user_can('trp_ps_admin')) {
+    if (!current_user_can('trp_super_admin') && !current_user_can('trp_ps_admin')) {
         wp_die(__('Non hai i permessi per accedere a questa pagina.'));
     }
 
@@ -95,14 +95,42 @@ function trp_ps_plugin_option_page_html() {
     $debug_mode = get_option('trp_ps_debug_mode', 0);
     $super_admin_users = get_option('trp_ps_super_admin_users', array());
 
-    // Recupera tutti gli utenti del sito
-    $users = get_users(['role__in' => 'administrator']);
+    // Current user ID
+    $current_user_id = get_current_user_id();
+
+    // Recupera tutti gli utenti amministratori del sito escluso l'utente corrente e il "super admin"
+    $administrators = get_users(
+        array(
+            'role__in' => 'administrator',
+            'capability__not_in' => array('trp_super_admin'),
+            'exclude' => array($current_user_id),
+        )
+    );
+
     ?>
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         <form method="post" action="">
             <?php settings_fields('trp_ps_options'); ?>
             <table class="form-table">
+                <tr>
+                    <th scope="row">Gestione Super Admin</th>
+                    <td>
+                        <select name="trp_ps_super_admin_users[]" multiple="multiple" style="min-width: 300px; min-height: 150px;">
+                            <?php foreach ($administrators as $user) : ?>
+
+                                <option value="<?php echo esc_attr($user->ID); ?>" 
+                                    <?php selected(in_array($user->ID, $super_admin_users), true); ?>>
+                                    <?php echo esc_html($user->display_name . ' (' . $user->user_email . ')'); ?>
+                                </option>
+
+                            <?php endforeach; ?>
+                        </select>
+                        <p class="description">
+                            Seleziona gli altri utenti che vuoi rendere Super Admin. Usa CTRL+click per selezionare più utenti.
+                        </p>
+                    </td>
+                </tr>
                 <tr>
                     <th scope="row">jQuery Migrate</th>
                     <td>
@@ -155,22 +183,6 @@ function trp_ps_plugin_option_page_html() {
                             <input type="checkbox" name="trp_ps_debug_mode" value="1" <?php checked(1, $debug_mode); ?>>
                             Enable WordPress debug mode
                         </label>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Gestione Super Admin</th>
-                    <td>
-                        <select name="trp_ps_super_admin_users[]" multiple="multiple" style="min-width: 300px; min-height: 150px;">
-                            <?php foreach ($users as $user) : ?>
-                                <option value="<?php echo esc_attr($user->ID); ?>" 
-                                    <?php selected(in_array($user->ID, $super_admin_users), true); ?>>
-                                    <?php echo esc_html($user->display_name . ' (' . $user->user_email . ')'); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                        <p class="description">
-                            Seleziona gli utenti che vuoi rendere Super Admin. Usa CTRL+click per selezionare più utenti.
-                        </p>
                     </td>
                 </tr>
             </table>

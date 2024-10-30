@@ -68,7 +68,7 @@ add_filter( 'login_errors', 'trp_ps_hide_wordpress_errors' );
 
 // TRAPSTUDIO CHECK SUPER ADMIN
 function trp_ps_is_super_admin() {
-    return current_user_can('trp_ps_admin');
+    return current_user_can('trp_super_admin') || current_user_can('trp_ps_admin');
 }
 
 
@@ -76,7 +76,7 @@ function trp_ps_is_super_admin() {
 function trp_ps_edit_role_caps() {
 	$current_user = wp_get_current_user();
 
-	if( trp_ps_is_super_admin() ):
+	if( trp_ps_is_super_admin() ) {
 	
 		//ripristino capabilities
 		$current_user->add_cap( 'upload_themes', true );
@@ -95,54 +95,54 @@ function trp_ps_edit_role_caps() {
 		$current_user->add_cap( 'update_core', true );
 		$current_user->add_cap( 'update_themes', true );
 
-	else:
+	} else {
 
 		//didsabilito editor tema e plugin
-		if(get_field('capabilities_files_disabled', 'option')):
+		if (get_option('trp_ps_jquery_migrate', 0)) {
             if (!defined('DISALLOW_FILE_EDIT')) {
-                // define('DISALLOW_FILE_EDIT', TRUE);
+                define('DISALLOW_FILE_EDIT', TRUE);
             }
-		endif;
+		}
 
 		//remove dangerous capability for other admin
-		if(get_field('capabilities_themes_disabled', 'option')):
+		if (get_option('trp_ps_jquery_migrate', 0)) {
 			$current_user->add_cap( 'upload_themes', false );
 			$current_user->add_cap( 'install_themes', false );
 			$current_user->add_cap( 'switch_themes', false );
 			$current_user->add_cap( 'edit_themes', false );
 			$current_user->add_cap( 'delete_themes', false );
-		else:
+		} else {
 			$current_user->add_cap( 'upload_themes', true );
 			$current_user->add_cap( 'install_themes', true );
 			$current_user->add_cap( 'switch_themes', true );
 			$current_user->add_cap( 'edit_themes', true );
 			$current_user->add_cap( 'delete_themes', true );
-		endif;
+		}
 
-		if(get_field('capabilities_plugins_disabled', 'option')):
+		if (get_option('trp_ps_jquery_migrate', 0)) {
 			$current_user->add_cap( 'upload_plugins', false );
 			$current_user->add_cap( 'install_plugins', false );
 			$current_user->add_cap( 'activate_plugins', false );
 			$current_user->add_cap( 'edit_plugins', false );
 			$current_user->add_cap( 'delete_plugins', false );
-		else:
+		} else {
 			$current_user->add_cap( 'upload_plugins', true );
 			$current_user->add_cap( 'install_plugins', true );
 			$current_user->add_cap( 'activate_plugins', true );
 			$current_user->add_cap( 'edit_plugins', true );
 			$current_user->add_cap( 'delete_plugins', true );
-		endif;
+		}
 
-		if(get_field('capabilities_updates_disabled', 'option')):
+		if (get_option('trp_ps_jquery_migrate', 0)) {
 			$current_user->add_cap( 'update_plugins', false );
 			$current_user->add_cap( 'update_core', false );
 			$current_user->add_cap( 'update_themes', false );
-		else:
+		} else {
 			$current_user->add_cap( 'update_plugins', true );
 			$current_user->add_cap( 'update_core', true );
 			$current_user->add_cap( 'update_themes', true );
-		endif;
+		}
 
-	endif;
+	}
 }
 add_action( 'init', 'trp_ps_edit_role_caps', 11 );

@@ -35,26 +35,22 @@ require_once PERFORMANCE_SECURITY_PLUGIN_DIR . '/inc/ps-security.php';
 function trp_ps_plugin_activate() {
     // Assegna la capability super_admin all'utente che attiva il plugin
     $current_user = wp_get_current_user();
-    $current_user->add_cap('trp_ps_admin');
-
-    $current_super_admins = get_option('trp_ps_super_admin_users', array());
-
-    if(!is_array($current_super_admins)){
-        $current_super_admins = array();
-    }
-
-    // Aggiungi l'ID dell'utente corrente all'array
-    if( !in_array($current_user->ID, $current_super_admins) ) {
-        $current_super_admins[] = $current_user->ID;
-    }
-
-    // Aggiorna l'opzione con l'array aggiornato
-    update_option('trp_ps_super_admin_users', $current_super_admins);
+    $current_user->add_cap('trp_super_admin', true);
 }
 register_activation_hook( __FILE__, 'trp_ps_plugin_activate' );
 
 // Disattivazione del plugin
-// function trp_ps_plugin_deactivate() {
+function trp_ps_plugin_deactivate() {
+    // Rimuove la capability super_admin a tutti gli utenti
+    $super_admin = get_users(
+        array(
+            'role__in' => 'administrator',
+            'capability' => 'trp_super_admin'
+        )
+    );
 
-// }
-// register_deactivation_hook(__FILE__, 'trp_ps_plugin_deactivate');
+    foreach ($super_admin as $user) {
+        $user->add_cap('trp_super_admin', false);
+    }
+}
+register_deactivation_hook(__FILE__, 'trp_ps_plugin_deactivate');
