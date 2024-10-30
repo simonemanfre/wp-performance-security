@@ -71,6 +71,8 @@ function trp_ps_is_super_admin() {
     return current_user_can('trp_super_admin') || current_user_can('trp_ps_admin');
 }
 
+//DISABILITO EDITOR VISUALE ACF
+add_filter('acf/settings/show_admin', 'trp_ps_is_super_admin');
 
 //EDIT CAPABILIES FOR ADMINISTRATOR 
 function trp_ps_edit_role_caps() {

@@ -4,7 +4,7 @@ defined( 'PERFORMANCE_SECURITY_PLUGIN_DIR' ) || exit; // Exit if accessed direct
 // PAGINA OPZIONI PLUGIN
 function trp_ps_plugin_option_page() {
     // Verifica i permessi
-    if (!current_user_can('manage_options')) {
+    if (!trp_ps_is_super_admin()) {
         return;
     }
 
