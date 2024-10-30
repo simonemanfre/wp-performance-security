@@ -113,7 +113,6 @@ function trp_ps_plugin_option_page_html() {
         array(
             'role__in' => 'administrator',
             'capability__not_in' => array('trp_super_admin'),
-            'exclude' => array($current_user_id),
         )
     );
 
@@ -129,8 +128,7 @@ function trp_ps_plugin_option_page_html() {
                         <select name="trp_ps_super_admin_users[]" multiple="multiple" style="min-width: 300px; min-height: 150px;">
                             <?php foreach ($administrators as $user) : ?>
 
-                                <option value="<?php echo esc_attr($user->ID); ?>" 
-                                    <?php selected(in_array($user->ID, $super_admin_users), true); ?>>
+                                <option value="<?php echo esc_attr($user->ID); ?>" <?php selected(in_array($user->ID, $super_admin_users), true); ?> <?php echo ($user->ID == $current_user_id) ? "disabled" : ""; ?>>
                                     <?php echo esc_html($user->display_name . ' (' . $user->user_email . ')'); ?>
                                 </option>
 
