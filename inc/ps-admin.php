@@ -29,7 +29,6 @@ function trp_ps_register_settings() {
     register_setting('trp_ps_options', 'trp_ps_manage_themes');
     register_setting('trp_ps_options', 'trp_ps_manage_plugins');
     register_setting('trp_ps_options', 'trp_ps_manage_updates');
-    register_setting('trp_ps_options', 'trp_ps_debug_mode');
     register_setting('trp_ps_options', 'trp_ps_super_admin_users', array(
         'type' => 'array',
         'sanitize_callback' => 'trp_ps_sanitize_super_admin_users',
@@ -65,7 +64,6 @@ function trp_ps_plugin_option_page_html() {
         update_option('trp_ps_manage_themes', isset($_POST['trp_ps_manage_themes']) ? 1 : 0);
         update_option('trp_ps_manage_plugins', isset($_POST['trp_ps_manage_plugins']) ? 1 : 0);
         update_option('trp_ps_manage_updates', isset($_POST['trp_ps_manage_updates']) ? 1 : 0);
-        update_option('trp_ps_debug_mode', isset($_POST['trp_ps_debug_mode']) ? 1 : 0);
 
          // Manage super admin users
          $selected_users = isset($_POST['trp_ps_super_admin_users']) ? (array) $_POST['trp_ps_super_admin_users'] : array();
@@ -104,7 +102,6 @@ function trp_ps_plugin_option_page_html() {
     $manage_themes = get_option('trp_ps_manage_themes', 0);
     $manage_plugins = get_option('trp_ps_manage_plugins', 0);
     $manage_updates = get_option('trp_ps_manage_updates', 0);
-    $debug_mode = get_option('trp_ps_debug_mode', 0);
     $super_admin_users = get_option('trp_ps_super_admin_users', array());
 
     // Current user ID
@@ -222,15 +219,6 @@ function trp_ps_plugin_option_page_html() {
                         <label>
                             <input type="checkbox" name="trp_ps_manage_updates" value="1" <?php checked(1, $manage_updates); ?>>
                             Disable Update Management for non Super Admin users
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Enable Debug Mode</th>
-                    <td>
-                        <label>
-                            <input type="checkbox" name="trp_ps_debug_mode" value="1" <?php checked(1, $debug_mode); ?>>
-                            Enable WordPress debug mode
                         </label>
                     </td>
                 </tr>

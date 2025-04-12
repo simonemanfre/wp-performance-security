@@ -13,10 +13,10 @@ function trp_ps_whitelabel(){
 	remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
 	remove_action('wp_head', 'feed_links', 2);
 	remove_action('wp_head', 'feed_links_extra', 3);
-	remove_action( 'wp_head', 'rest_output_link_wp_head' );
-	remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
-	remove_action( 'template_redirect', 'rest_output_link_header', 11, 0 );
-	remove_action( 'wp_head', 'wp_resource_hints', 2 );
+	remove_action('wp_head', 'rest_output_link_wp_head' );
+	remove_action('wp_head', 'wp_oembed_add_discovery_links' );
+	remove_action('template_redirect', 'rest_output_link_header', 11, 0 );
+	remove_action('wp_head', 'wp_resource_hints', 2 );
 
 	add_filter('the_generator','trp_ps_remove_wp_version_rss');
 
@@ -36,7 +36,7 @@ function trp_ps_whitelabel(){
 		remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
 
 		// filter to remove TinyMCE emojis
-		//add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
+		add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
 	}
 	add_action( 'init', 'trp_ps_disable_wp_emojicons' );
 }
@@ -48,10 +48,11 @@ function trp_ps_xmlrpc_disable(){
 
 	// Disable X-Pingback to header
 	add_filter( 'wp_headers', 'trp_ps_disable_x_pingback' );
+	
 	function trp_ps_disable_x_pingback( $headers ) {
 	    unset( $headers['X-Pingback'] );
 
-	return $headers;
+		return $headers;
 	}
 }
 
@@ -61,7 +62,7 @@ trp_ps_xmlrpc_disable();
 
 // HIDE WORDPRESS ERROR MESSAGES
 function trp_ps_hide_wordpress_errors(){
-	// return 'Incorrect username or password.';
+	return 'Incorrect username or password.';
 }
 add_filter( 'login_errors', 'trp_ps_hide_wordpress_errors' );
 

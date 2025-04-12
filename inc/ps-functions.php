@@ -1,22 +1,6 @@
 <?php 
 defined( 'PERFORMANCE_SECURITY_PLUGIN_DIR' ) || exit; // Exit if accessed directly
 
-// Function to enable debug mode
-function trp_ps_activate_debug_mode($scripts) {
-    if (get_option('trp_ps_debug_mode', 0)) {
-        if (!defined('WP_DEBUG')) {
-            define('WP_DEBUG', true);
-        }
-        if (!defined('WP_DEBUG_LOG')) {
-            define('WP_DEBUG_LOG', true);
-        }
-        if (!defined('WP_DEBUG_DISPLAY')) {
-            define('WP_DEBUG_DISPLAY', true);
-        }
-    }
-}
-add_action('wp_default_scripts', 'trp_ps_activate_debug_mode');
-
 // Function to remove jQuery Migrate
 function trp_ps_remove_jquery_migrate($scripts) {
     if (get_option('trp_ps_jquery_migrate', 0)) {
