@@ -9,8 +9,8 @@ function trp_sasp_plugin_option_page() {
     }
 
     add_options_page(
-        'Performance & Security',
-        'Performance & Security',
+        'Super Admin Security & Performance',
+        'Super Admin Security & Performance',
         'manage_options',
         'ps',
         'trp_sasp_plugin_option_page_html'
@@ -184,15 +184,6 @@ function trp_sasp_plugin_option_page_html() {
 
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Speculation Rules', 'super-admin-security-performance'); ?></th>
-                        <td>
-                            <label>
-                                <input type="checkbox" name="trp_sasp_speculation_rules" value="1" <?php checked(1, $speculation_rules); ?>>
-                                <?php echo esc_html__('Enable speculation rules with prerender on link :hover', 'super-admin-security-performance'); ?>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
                         <th scope="row"><?php echo esc_html__('Redirect HTTPS', 'super-admin-security-performance'); ?></th>
                         <td>
                             <label>
@@ -202,20 +193,11 @@ function trp_sasp_plugin_option_page_html() {
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Enable Deflate & Cache', 'super-admin-security-performance'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Disable Update Management', 'super-admin-security-performance'); ?></th>
                         <td>
                             <label>
-                                <input type="checkbox" name="trp_sasp_deflate_cache" value="1" <?php checked(1, $deflate_cache); ?>>
-                                <?php echo esc_html__('Enable Deflate & Cache on Apache Server', 'super-admin-security-performance'); ?>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?php echo esc_html__('Disable File Edit', 'super-admin-security-performance'); ?></th>
-                        <td>
-                            <label>
-                                <input type="checkbox" name="trp_sasp_file_edit" value="1" <?php checked(1, $file_edit); ?>>
-                                <?php echo esc_html__('Disable File Edit for non Super Admin users', 'super-admin-security-performance'); ?>
+                                <input type="checkbox" name="trp_sasp_manage_updates" value="1" <?php checked(1, $manage_updates); ?>>
+                                <?php echo esc_html__('Disable Update Management for non Super Admin users', 'super-admin-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
@@ -238,11 +220,11 @@ function trp_sasp_plugin_option_page_html() {
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Disable Update Management', 'super-admin-security-performance'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Disable File Edit', 'super-admin-security-performance'); ?></th>
                         <td>
                             <label>
-                                <input type="checkbox" name="trp_sasp_manage_updates" value="1" <?php checked(1, $manage_updates); ?>>
-                                <?php echo esc_html__('Disable Update Management for non Super Admin users', 'super-admin-security-performance'); ?>
+                                <input type="checkbox" name="trp_sasp_file_edit" value="1" <?php checked(1, $file_edit); ?>>
+                                <?php echo esc_html__('Disable File Edit for non Super Admin users', 'super-admin-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
@@ -266,6 +248,24 @@ function trp_sasp_plugin_option_page_html() {
                             <label>
                                 <input type="checkbox" name="trp_sasp_jquery_in_footer" value="1" <?php checked(1, $jquery_in_footer); ?>>
                                 <?php echo esc_html__('Load jQuery in footer instead of header', 'super-admin-security-performance'); ?>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php echo esc_html__('Speculation Rules', 'super-admin-security-performance'); ?></th>
+                        <td>
+                            <label>
+                                <input type="checkbox" name="trp_sasp_speculation_rules" value="1" <?php checked(1, $speculation_rules); ?>>
+                                <?php echo esc_html__('Enable speculation rules with prerender on link :hover', 'super-admin-security-performance'); ?>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php echo esc_html__('Enable Deflate & Cache', 'super-admin-security-performance'); ?></th>
+                        <td>
+                            <label>
+                                <input type="checkbox" name="trp_sasp_deflate_cache" value="1" <?php checked(1, $deflate_cache); ?>>
+                                <?php echo esc_html__('Enable Deflate & Cache on Apache Server', 'super-admin-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
