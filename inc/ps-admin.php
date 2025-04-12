@@ -48,7 +48,7 @@ function trp_ps_sanitize_super_admin_users($users) {
 function trp_ps_plugin_option_page_html() {
     // Check permissions
     if (!current_user_can('trp_super_admin') && !current_user_can('trp_ps_admin')) {
-        wp_die(__('You do not have permission to access this page.', 'wp-security-performance'));
+        wp_die(esc_html__('You do not have permission to access this page.', 'wp-security-performance'));
     }
 
     // Save settings if the form is submitted
@@ -95,7 +95,7 @@ function trp_ps_plugin_option_page_html() {
 
         update_option('trp_ps_super_admin_users', $selected_users);
 
-        echo '<div class="notice notice-success"><p>Settings saved successfully!</p></div>';
+        echo '<div class="notice notice-success"><p>' . esc_html__('Settings saved successfully!', 'wp-security-performance') . '</p></div>';
     }
 
     // Retrieve current values
@@ -134,9 +134,9 @@ function trp_ps_plugin_option_page_html() {
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         <h2 class="nav-tab-wrapper">
-            <a href="?page=ps&tab=general" class="nav-tab <?php echo $active_tab === 'general' ? 'nav-tab-active' : ''; ?>">General</a>
-            <a href="?page=ps&tab=security" class="nav-tab <?php echo $active_tab === 'security' ? 'nav-tab-active' : ''; ?>">Security</a>
-            <a href="?page=ps&tab=performance" class="nav-tab <?php echo $active_tab === 'performance' ? 'nav-tab-active' : ''; ?>">Performance</a>
+            <a href="?page=ps&tab=general" class="nav-tab <?php echo esc_attr($active_tab === 'general' ? 'nav-tab-active' : ''); ?>">General</a>
+            <a href="?page=ps&tab=security" class="nav-tab <?php echo esc_attr($active_tab === 'security' ? 'nav-tab-active' : ''); ?>">Security</a>
+            <a href="?page=ps&tab=performance" class="nav-tab <?php echo esc_attr($active_tab === 'performance' ? 'nav-tab-active' : ''); ?>">Performance</a>
         </h2>
         <form method="post" action="">
             <?php settings_fields('trp_ps_options'); ?>
@@ -147,9 +147,9 @@ function trp_ps_plugin_option_page_html() {
 
                 <table class="form-table">
                     <tr>
-                        <th scope="row">Manage Super Admin</th>
+                        <th scope="row"><?php echo esc_html__('Manage Super Admin', 'wp-security-performance'); ?></th>
                         <td>
-                            <p class="description">Select other users you want to make Super Admin. <br />You can't disable the main Admin.</p>
+                            <p class="description"><?php echo esc_html__('Select other users you want to make Super Admin. You can\'t disable the main Admin.', 'wp-security-performance'); ?></p>
 
                             <?php foreach ($super_admin as $user) : ?>
                                 <label style="display: block; margin-top: 16px;">
@@ -184,65 +184,65 @@ function trp_ps_plugin_option_page_html() {
 
                 <table class="form-table">
                     <tr>
-                        <th scope="row">Speculation Rules</th>
+                        <th scope="row"><?php echo esc_html__('Speculation Rules', 'wp-security-performance'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="trp_ps_speculation_rules" value="1" <?php checked(1, $speculation_rules); ?>>
-                                Enable speculation rules with prerender on link :hover
+                                <?php echo esc_html__('Enable speculation rules with prerender on link :hover', 'wp-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Redirect HTTPS</th>
+                        <th scope="row"><?php echo esc_html__('Redirect HTTPS', 'wp-security-performance'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="trp_ps_https_redirect" value="1" <?php checked(1, $htaccess_redirect); ?>>
-                                Enable redirect from HTTP:// to HTTPS://
+                                <?php echo esc_html__('Enable redirect from HTTP:// to HTTPS://', 'wp-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Enable Deflate & Cache</th>
+                        <th scope="row"><?php echo esc_html__('Enable Deflate & Cache', 'wp-security-performance'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="trp_ps_deflate_cache" value="1" <?php checked(1, $deflate_cache); ?>>
-                                Enable Deflate & Cache on Apache Server
+                                <?php echo esc_html__('Enable Deflate & Cache on Apache Server', 'wp-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Disable File Edit</th>
+                        <th scope="row"><?php echo esc_html__('Disable File Edit', 'wp-security-performance'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="trp_ps_file_edit" value="1" <?php checked(1, $file_edit); ?>>
-                                Disable File Edit for non Super Admin users
+                                <?php echo esc_html__('Disable File Edit for non Super Admin users', 'wp-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Disable Theme Management</th>
+                        <th scope="row"><?php echo esc_html__('Disable Theme Management', 'wp-security-performance'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="trp_ps_manage_themes" value="1" <?php checked(1, $manage_themes); ?>>
-                                Disable Theme Management for non Super Admin users
+                                <?php echo esc_html__('Disable Theme Management for non Super Admin users', 'wp-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Disable Plugin Management</th>
+                        <th scope="row"><?php echo esc_html__('Disable Plugin Management', 'wp-security-performance'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="trp_ps_manage_plugins" value="1" <?php checked(1, $manage_plugins); ?>>
-                                Disable Plugin Management for non Super Admin users
+                                <?php echo esc_html__('Disable Plugin Management for non Super Admin users', 'wp-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Disable Update Management</th>
+                        <th scope="row"><?php echo esc_html__('Disable Update Management', 'wp-security-performance'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="trp_ps_manage_updates" value="1" <?php checked(1, $manage_updates); ?>>
-                                Disable Update Management for non Super Admin users
+                                <?php echo esc_html__('Disable Update Management for non Super Admin users', 'wp-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
@@ -252,20 +252,20 @@ function trp_ps_plugin_option_page_html() {
 
                 <table class="form-table">
                     <tr>
-                        <th scope="row">jQuery Migrate</th>
+                        <th scope="row"><?php echo esc_html__('jQuery Migrate', 'wp-security-performance'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="trp_ps_jquery_migrate" value="1" <?php checked(1, $remove_jquery_migrate); ?>>
-                                Remove jQuery Migrate from website frontend
+                                <?php echo esc_html__('Remove jQuery Migrate from website frontend', 'wp-security-performance'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">jQuery in Footer</th>
+                        <th scope="row"><?php echo esc_html__('jQuery in Footer', 'wp-security-performance'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="trp_ps_jquery_in_footer" value="1" <?php checked(1, $jquery_in_footer); ?>>
-                                Load jQuery in footer instead of header
+                                <?php echo esc_html__('Load jQuery in footer instead of header', 'wp-security-performance'); ?>
                             </label>
                         </td>
                     </tr>

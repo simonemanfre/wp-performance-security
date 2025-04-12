@@ -61,10 +61,10 @@ trp_ps_xmlrpc_disable();
 
 
 // HIDE WORDPRESS ERROR MESSAGES
-function trp_ps_hide_wordpress_errors(){
-	return 'Incorrect username or password.';
+function trp_ps_hide_wordpress_errors() {
+    return esc_html__('Incorrect username or password.', 'wp-security-performance');
 }
-add_filter( 'login_errors', 'trp_ps_hide_wordpress_errors' );
+add_filter('login_errors', 'trp_ps_hide_wordpress_errors');
 
 
 // TRAPSTUDIO CHECK SUPER ADMIN

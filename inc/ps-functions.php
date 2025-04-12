@@ -30,7 +30,7 @@ add_action('wp_default_scripts', 'trp_ps_move_jquery_to_footer');
 function trp_ps_add_speculation_rules() {
     if (get_option('trp_ps_speculation_rules', 0)) {
         // GLOBAL PRERENDER ON HOVER
-        echo '
+        echo esc_html('
         <script type="speculationrules">
         {
             "prefetch": [{
@@ -46,43 +46,42 @@ function trp_ps_add_speculation_rules() {
             }]
         }
         </script>
-        ';
+        ');
 
         // WOOCOMMERCE PRERENDER
-        if( class_exists('woocommerce') ) {
-
-            if(is_cart()) {
+        if (class_exists('woocommerce')) {
+            if (is_cart()) {
                 // Prerender the checkout if in the cart
-                $next_url = wc_get_checkout_url();
+                $next_url = esc_url(wc_get_checkout_url());
 
-                echo '
+                echo esc_html('
                 <script type="speculationrules">
                 {
                     "prerender": [
                         {
-                        "urls": ["'.$next_url.'"]
+                        "urls": ["' . $next_url . '"]
                         }
                     ]
-                    }
+                }
                 </script>
-                ';
-            } 
+                ');
+            }
 
-            if(is_checkout()) {
+            if (is_checkout()) {
                 // Prerender the cart if in the checkout
-                $next_url = wc_get_cart_url();
-                
-                echo '
+                $next_url = esc_url(wc_get_cart_url());
+
+                echo esc_html('
                 <script type="speculationrules">
                 {
                     "prerender": [
                         {
-                        "urls": ["'.$next_url.'"]
+                        "urls": ["' . $next_url . '"]
                         }
                     ]
-                    }
+                }
                 </script>
-                ';
+                ');
             }
         }
     }
