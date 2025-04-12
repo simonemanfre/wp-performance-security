@@ -78,6 +78,10 @@ add_filter('acf/settings/show_admin', 'trp_ps_is_super_admin');
 function trp_ps_edit_role_caps() {
 	$current_user = wp_get_current_user();
 
+	if (!in_array('administrator', $current_user->roles)) {
+		return;
+	}
+
 	if( trp_ps_is_super_admin() ) {
 	
 		//ripristino capabilities

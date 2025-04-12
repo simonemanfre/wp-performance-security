@@ -2,7 +2,7 @@
 /*
 Plugin Name: Performance & Security
 Description: Improve performance and security of your WordPress website
-Author: Simone manfredini
+Author: Simone Manfredini & Trapstudio
 Author URI: https://simonemanfre.it/
 License: GPL2
 Domain Path: /languages/

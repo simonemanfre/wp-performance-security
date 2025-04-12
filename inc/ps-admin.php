@@ -54,6 +54,8 @@ function trp_ps_plugin_option_page_html() {
 
     // Salva le impostazioni se il form è stato inviato
     if (isset($_POST['submit'])) {
+        check_admin_referer('trp_ps_options_save', 'trp_ps_nonce');
+
         update_option('trp_ps_jquery_migrate', isset($_POST['trp_ps_jquery_migrate']) ? 1 : 0);
         update_option('trp_ps_jquery_in_footer', isset($_POST['trp_ps_jquery_in_footer']) ? 1 : 0);
         update_option('trp_ps_speculation_rules', isset($_POST['trp_ps_speculation_rules']) ? 1 : 0);
@@ -121,6 +123,9 @@ function trp_ps_plugin_option_page_html() {
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         <form method="post" action="">
             <?php settings_fields('trp_ps_options'); ?>
+
+            <?php wp_nonce_field('trp_ps_options_save', 'trp_ps_nonce'); ?>
+            
             <table class="form-table">
                 <tr>
                     <th scope="row">Gestione Super Admin</th>
