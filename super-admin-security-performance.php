@@ -29,7 +29,7 @@ if( is_admin() ){
 }
 
 require_once SUPER_ADMIN_SECURITY_PERFORMANCE_PLUGIN_DIR . '/inc/sasp-functions.php';
-require_once SUPER_ADMIN_SECURITY_PERFORMANCE_PLUGIN_DIR . '/inc/psasps-security.php';
+require_once SUPER_ADMIN_SECURITY_PERFORMANCE_PLUGIN_DIR . '/inc/sasp-security.php';
 
 // Plugin activation
 function trp_sasp_plugin_activate() {
