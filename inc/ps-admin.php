@@ -55,14 +55,15 @@ function trp_ps_plugin_option_page_html() {
     if (isset($_POST['submit'])) {
         check_admin_referer('trp_ps_options_save', 'trp_ps_nonce');
 
-        // Save general settings
-        update_option('trp_ps_super_admin_users', isset($_POST['trp_ps_super_admin_users']) ? (array) $_POST['trp_ps_super_admin_users'] : array());
+        // Sanitize and save general settings
+        $selected_users = isset($_POST['trp_ps_super_admin_users']) ? array_map('absint', (array) $_POST['trp_ps_super_admin_users']) : array();
+        update_option('trp_ps_super_admin_users', $selected_users);
 
-        // Save performance settings
+        // Sanitize and save performance settings
         update_option('trp_ps_jquery_migrate', isset($_POST['trp_ps_jquery_migrate']) ? 1 : 0);
         update_option('trp_ps_jquery_in_footer', isset($_POST['trp_ps_jquery_in_footer']) ? 1 : 0);
 
-        // Save security settings
+        // Sanitize and save security settings
         update_option('trp_ps_speculation_rules', isset($_POST['trp_ps_speculation_rules']) ? 1 : 0);
         update_option('trp_ps_https_redirect', isset($_POST['trp_ps_https_redirect']) ? 1 : 0);
         update_option('trp_ps_deflate_cache', isset($_POST['trp_ps_deflate_cache']) ? 1 : 0);
@@ -72,9 +73,8 @@ function trp_ps_plugin_option_page_html() {
         update_option('trp_ps_manage_updates', isset($_POST['trp_ps_manage_updates']) ? 1 : 0);
 
         // Manage super admin users
-        $selected_users = isset($_POST['trp_ps_super_admin_users']) ? (array) $_POST['trp_ps_super_admin_users'] : array();
         $current_super_admins = get_option('trp_ps_super_admin_users', array());
- 
+
         // Remove capability from users no longer selected
         foreach ($current_super_admins as $user_id) {
             if (!in_array($user_id, $selected_users)) {
@@ -94,7 +94,7 @@ function trp_ps_plugin_option_page_html() {
         }
 
         update_option('trp_ps_super_admin_users', $selected_users);
-        
+
         echo '<div class="notice notice-success"><p>Settings saved successfully!</p></div>';
     }
 
@@ -149,7 +149,7 @@ function trp_ps_plugin_option_page_html() {
                     <tr>
                         <th scope="row">Manage Super Admin</th>
                         <td>
-                            <p class="description">Select other users you want to make Super Admin. <br />You cant't disable the main Admin.</p>
+                            <p class="description">Select other users you want to make Super Admin. <br />You can't disable the main Admin.</p>
 
                             <?php foreach ($super_admin as $user) : ?>
                                 <label style="display: block; margin-top: 16px;">
