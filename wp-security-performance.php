@@ -6,7 +6,7 @@ Author: Simone Manfredini & Trapstudio
 Author URI: https://simonemanfre.it/
 License: GPL2
 Domain Path: /languages/
-Text Domain: ps
+Text Domain: wp-security-performance
 Version: 0.0.1
 */
 /*  This program is free software; you can redistribute it and/or modify

@@ -48,7 +48,7 @@ function trp_ps_sanitize_super_admin_users($users) {
 function trp_ps_plugin_option_page_html() {
     // Check permissions
     if (!current_user_can('trp_super_admin') && !current_user_can('trp_ps_admin')) {
-        wp_die(__('You do not have permission to access this page.'));
+        wp_die(__('You do not have permission to access this page.', 'wp-security-performance'));
     }
 
     // Save settings if the form is submitted
