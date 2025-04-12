@@ -49,7 +49,7 @@ function trp_ps_add_speculation_rules() {
         echo '
         <script type="speculationrules">
         {
-            "prerender": [{
+            "prefetch": [{
                 "where": {
                     "and": [
                         { "href_matches": "/*" },
@@ -66,23 +66,6 @@ function trp_ps_add_speculation_rules() {
 
         // WOOCOMMERCE PRERENDER
         if( class_exists('woocommerce') ) {
-            
-            if(is_product()) {
-                // Prerender the cart if on a product page
-                $next_url = wc_get_cart_url();
-
-                echo '
-                <script type="speculationrules">
-                {
-                    "prerender": [
-                        {
-                        "urls": ["'.$next_url.'"]
-                        }
-                    ]
-                    }
-                </script>
-                ';
-            } 
 
             if(is_cart()) {
                 // Prerender the checkout if in the cart
