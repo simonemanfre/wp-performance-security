@@ -121,6 +121,13 @@ function trp_ps_plugin_option_page_html() {
         )
     );
 
+    $super_admin = get_users(
+        array(
+            'role__in' => 'administrator',
+            'capability' => 'trp_super_admin'
+        )
+    );
+
     // Tabs
     $active_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'general';
     ?>
@@ -128,8 +135,8 @@ function trp_ps_plugin_option_page_html() {
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         <h2 class="nav-tab-wrapper">
             <a href="?page=ps&tab=general" class="nav-tab <?php echo $active_tab === 'general' ? 'nav-tab-active' : ''; ?>">General</a>
-            <a href="?page=ps&tab=performance" class="nav-tab <?php echo $active_tab === 'performance' ? 'nav-tab-active' : ''; ?>">Performance</a>
             <a href="?page=ps&tab=security" class="nav-tab <?php echo $active_tab === 'security' ? 'nav-tab-active' : ''; ?>">Security</a>
+            <a href="?page=ps&tab=performance" class="nav-tab <?php echo $active_tab === 'performance' ? 'nav-tab-active' : ''; ?>">Performance</a>
         </h2>
         <form method="post" action="">
             <?php settings_fields('trp_ps_options'); ?>
@@ -142,14 +149,33 @@ function trp_ps_plugin_option_page_html() {
                     <tr>
                         <th scope="row">Manage Super Admin</th>
                         <td>
-                            <select name="trp_ps_super_admin_users[]" multiple="multiple" style="min-width: 300px; min-height: 150px;">
-                                <?php foreach ($administrators as $user) : ?>
-                                    <option value="<?php echo esc_attr($user->ID); ?>" <?php selected(in_array($user->ID, $super_admin_users), true); ?> <?php echo ($user->ID == $current_user_id) ? "disabled" : ""; ?>>
-                                        <?php echo esc_html($user->display_name . ' (' . $user->user_email . ')'); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <p class="description">Select other users you want to make Super Admin. Use CTRL+click to select multiple users.</p>
+                            <p class="description">Select other users you want to make Super Admin. <br />You cant't disable the main Admin.</p>
+
+                            <?php foreach ($super_admin as $user) : ?>
+                                <label style="display: block; margin-top: 16px;">
+                                    <input 
+                                        type="checkbox" 
+                                        name="" 
+                                        value="<?php echo esc_attr($user->ID); ?>" 
+                                        checked
+                                        disabled
+                                    >
+                                    <?php echo esc_html($user->display_name . ' (' . $user->user_email . ')'); ?>
+                                </label>
+                            <?php endforeach; ?>
+
+                            <?php foreach ($administrators as $user) : ?>
+                                <label style="display: block; margin-top: 8px;">
+                                    <input 
+                                        type="checkbox" 
+                                        name="trp_ps_super_admin_users[]" 
+                                        value="<?php echo esc_attr($user->ID); ?>" 
+                                        <?php checked(in_array($user->ID, $super_admin_users), true); ?> 
+                                        <?php echo ($user->ID == $current_user_id) ? "disabled" : ""; ?>
+                                    >
+                                    <?php echo esc_html($user->display_name . ' (' . $user->user_email . ')'); ?>
+                                </label>
+                            <?php endforeach; ?>
                         </td>
                     </tr>
                 </table>
@@ -246,7 +272,7 @@ function trp_ps_plugin_option_page_html() {
                 </table>
             
             <?php endif; ?>
-            
+
             <?php submit_button(); ?>
         </form>
     </div>
