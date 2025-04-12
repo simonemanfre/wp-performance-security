@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: WP Security & Performance
-Description: Improve security and performance of your WordPress website
+Plugin Name: Super Admin Security & Performance
+Description: Add Super Admin. Improve security and performance of your WordPress website.
 Author: Simone Manfredini & Trapstudio
 Author URI: https://simonemanfre.it/
 License: GPL2
 Domain Path: /languages/
-Text Domain: wp-security-performance
+Text Domain: super-admin-security-performance
 Version: 0.0.1
 */
 /*  This program is free software; you can redistribute it and/or modify
@@ -32,15 +32,15 @@ require_once PERFORMANCE_SECURITY_PLUGIN_DIR . '/inc/ps-functions.php';
 require_once PERFORMANCE_SECURITY_PLUGIN_DIR . '/inc/ps-security.php';
 
 // Plugin activation
-function trp_ps_plugin_activate() {
+function trp_sasp_plugin_activate() {
     // Assign the super_admin capability to the user activating the plugin
     $current_user = wp_get_current_user();
     $current_user->add_cap('trp_super_admin', true);
 }
-register_activation_hook( __FILE__, 'trp_ps_plugin_activate' );
+register_activation_hook( __FILE__, 'trp_sasp_plugin_activate' );
 
 // Plugin deactivation
-function trp_ps_plugin_deactivate() {
+function trp_sasp_plugin_deactivate() {
     // Remove the super_admin capability from all users
     $super_admin = get_users(
         array(
@@ -53,4 +53,4 @@ function trp_ps_plugin_deactivate() {
         $user->add_cap('trp_super_admin', false);
     }
 }
-register_deactivation_hook(__FILE__, 'trp_ps_plugin_deactivate');
+register_deactivation_hook(__FILE__, 'trp_sasp_plugin_deactivate');

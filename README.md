@@ -1,14 +1,14 @@
-# Security & Performance
+# Super Admin Security & Performance
 
 **Contributors:** Simone Manfredini, Trapstudio  
-**Tags:** performance, security, WordPress  
+**Tags:** performance, security, WordPress, super admin
 **Requires at least:** 5.0  
 **Tested up to:** 6.7
 **Stable tag:** 0.0.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
-Security & Performance is a WordPress plugin designed to improve the performance and security of your website.
+Super Admin Security & Performance is a WordPress plugin designed to improve the performance and security of your website.
 
 ## Description
 

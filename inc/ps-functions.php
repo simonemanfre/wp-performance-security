@@ -2,8 +2,8 @@
 defined( 'PERFORMANCE_SECURITY_PLUGIN_DIR' ) || exit; // Exit if accessed directly
 
 // Function to remove jQuery Migrate
-function trp_ps_remove_jquery_migrate($scripts) {
-    if (get_option('trp_ps_jquery_migrate', 0)) {
+function trp_sasp_remove_jquery_migrate($scripts) {
+    if (get_option('trp_sasp_jquery_migrate', 0)) {
         if (!is_admin() && isset($scripts->registered['jquery'])) {
             $script = $scripts->registered['jquery'];
             if ($script->deps) {
@@ -12,11 +12,11 @@ function trp_ps_remove_jquery_migrate($scripts) {
         }
     }
 }
-add_action('wp_default_scripts', 'trp_ps_remove_jquery_migrate');
+add_action('wp_default_scripts', 'trp_sasp_remove_jquery_migrate');
 
 // Function to move jQuery to the footer
-function trp_ps_move_jquery_to_footer($wp_scripts) {
-    if (get_option('trp_ps_jquery_in_footer', 0)) {
+function trp_sasp_move_jquery_to_footer($wp_scripts) {
+    if (get_option('trp_sasp_jquery_in_footer', 0)) {
         if (!is_admin()) {
             $wp_scripts->add_data('jquery', 'group', 1);
             $wp_scripts->add_data('jquery-core', 'group', 1);
@@ -24,11 +24,11 @@ function trp_ps_move_jquery_to_footer($wp_scripts) {
         }
     }
 }
-add_action('wp_default_scripts', 'trp_ps_move_jquery_to_footer');
+add_action('wp_default_scripts', 'trp_sasp_move_jquery_to_footer');
 
 // Function to add speculation rules
-function trp_ps_add_speculation_rules() {
-    if (get_option('trp_ps_speculation_rules', 0)) {
+function trp_sasp_add_speculation_rules() {
+    if (get_option('trp_sasp_speculation_rules', 0)) {
         // GLOBAL PRERENDER ON HOVER
         echo esc_html('
         <script type="speculationrules">
@@ -86,11 +86,11 @@ function trp_ps_add_speculation_rules() {
         }
     }
 }       
-add_action( 'wp_head', 'trp_ps_add_speculation_rules' ); 
+add_action( 'wp_head', 'trp_sasp_add_speculation_rules' ); 
 
 // Function to add HTTPS redirect
-if (get_option('trp_ps_https_redirect', 0)) {
-    function trp_ps_add_https_redirect( $rules ) {
+if (get_option('trp_sasp_https_redirect', 0)) {
+    function trp_sasp_add_https_redirect( $rules ) {
         // Add new HTTPS rules
         $new_rules = "# BEGIN HTTPS\n";
         $new_rules .= "<IfModule mod_rewrite.c>\n";
@@ -103,11 +103,11 @@ if (get_option('trp_ps_https_redirect', 0)) {
 
         return $new_rules;
     }
-    add_filter('mod_rewrite_rules', 'trp_ps_add_https_redirect');
+    add_filter('mod_rewrite_rules', 'trp_sasp_add_https_redirect');
 }
 
-if (get_option('trp_ps_deflate_cache', 0)) {
-    function trp_ps_add_deflate_cache( $rules ) {
+if (get_option('trp_sasp_deflate_cache', 0)) {
+    function trp_sasp_add_deflate_cache( $rules ) {
         $rules .= '# DEFLATE compression
 <IfModule mod_deflate.c>
 # Compress HTML, CSS, JavaScript, Text, XML and fonts
@@ -169,10 +169,10 @@ ExpiresByType application/x-shockwave-flash "access 1 month"
 
         return $rules;
     }
-    add_filter('mod_rewrite_rules', 'trp_ps_add_deflate_cache');
+    add_filter('mod_rewrite_rules', 'trp_sasp_add_deflate_cache');
 }
 
-function trp_ps_htaccess_security( $rules ) {	
+function trp_sasp_htaccess_security( $rules ) {	
 	$rules .= '# SECURITY: XML RPC BLOCKING
 <Files xmlrpc.php>
 Order Deny,Allow
@@ -203,4 +203,4 @@ Options -Indexes
 
 	return $rules;
 }
-add_filter('mod_rewrite_rules', 'trp_ps_htaccess_security');
+add_filter('mod_rewrite_rules', 'trp_sasp_htaccess_security');
