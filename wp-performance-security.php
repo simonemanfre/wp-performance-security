@@ -31,17 +31,17 @@ if( is_admin() ){
 require_once PERFORMANCE_SECURITY_PLUGIN_DIR . '/inc/ps-functions.php';
 require_once PERFORMANCE_SECURITY_PLUGIN_DIR . '/inc/ps-security.php';
 
-// Attivazione del plugin
+// Plugin activation
 function trp_ps_plugin_activate() {
-    // Assegna la capability super_admin all'utente che attiva il plugin
+    // Assign the super_admin capability to the user activating the plugin
     $current_user = wp_get_current_user();
     $current_user->add_cap('trp_super_admin', true);
 }
 register_activation_hook( __FILE__, 'trp_ps_plugin_activate' );
 
-// Disattivazione del plugin
+// Plugin deactivation
 function trp_ps_plugin_deactivate() {
-    // Rimuove la capability super_admin a tutti gli utenti
+    // Remove the super_admin capability from all users
     $super_admin = get_users(
         array(
             'role__in' => 'administrator',

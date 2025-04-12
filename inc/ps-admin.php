@@ -1,9 +1,9 @@
 <?php 
 defined( 'PERFORMANCE_SECURITY_PLUGIN_DIR' ) || exit; // Exit if accessed directly
 
-// PAGINA OPZIONI PLUGIN
+// PLUGIN OPTIONS PAGE
 function trp_ps_plugin_option_page() {
-    // Verifica i permessi
+    // Check permissions
     if (!trp_ps_is_super_admin()) {
         return;
     }
@@ -18,7 +18,7 @@ function trp_ps_plugin_option_page() {
 }
 add_action('admin_menu', 'trp_ps_plugin_option_page');
 
-// Registra le impostazioni
+// Register settings
 function trp_ps_register_settings() {
     register_setting('trp_ps_options', 'trp_ps_jquery_migrate');
     register_setting('trp_ps_options', 'trp_ps_jquery_in_footer');
@@ -37,7 +37,7 @@ function trp_ps_register_settings() {
 }
 add_action('admin_init', 'trp_ps_register_settings');
 
-// Sanitizza l'array degli utenti super admin
+// Sanitize the super admin users array
 function trp_ps_sanitize_super_admin_users($users) {
     if (!is_array($users)) {
         return array();
@@ -45,14 +45,14 @@ function trp_ps_sanitize_super_admin_users($users) {
     return array_map('absint', $users);
 }
 
-// Contenuto pagina opzioni
+// Options page content
 function trp_ps_plugin_option_page_html() {
-    // Verifica i permessi
+    // Check permissions
     if (!current_user_can('trp_super_admin') && !current_user_can('trp_ps_admin')) {
-        wp_die(__('Non hai i permessi per accedere a questa pagina.'));
+        wp_die(__('You do not have permission to access this page.'));
     }
 
-    // Salva le impostazioni se il form è stato inviato
+    // Save settings if the form is submitted
     if (isset($_POST['submit'])) {
         check_admin_referer('trp_ps_options_save', 'trp_ps_nonce');
 
@@ -67,11 +67,11 @@ function trp_ps_plugin_option_page_html() {
         update_option('trp_ps_manage_updates', isset($_POST['trp_ps_manage_updates']) ? 1 : 0);
         update_option('trp_ps_debug_mode', isset($_POST['trp_ps_debug_mode']) ? 1 : 0);
 
-         // Gestisci gli utenti super admin
+         // Manage super admin users
          $selected_users = isset($_POST['trp_ps_super_admin_users']) ? (array) $_POST['trp_ps_super_admin_users'] : array();
          $current_super_admins = get_option('trp_ps_super_admin_users', array());
  
-         // Rimuovi la capability dagli utenti non più selezionati
+         // Remove capability from users no longer selected
          foreach ($current_super_admins as $user_id) {
              if (!in_array($user_id, $selected_users)) {
                  $user = get_user_by('id', $user_id);
@@ -81,7 +81,7 @@ function trp_ps_plugin_option_page_html() {
              }
          }
  
-         // Aggiungi la capability ai nuovi utenti selezionati
+         // Add capability to newly selected users
          foreach ($selected_users as $user_id) {
              $user = get_user_by('id', $user_id);
              if ($user) {
@@ -91,10 +91,10 @@ function trp_ps_plugin_option_page_html() {
  
          update_option('trp_ps_super_admin_users', $selected_users);
          
-         echo '<div class="notice notice-success"><p>Impostazioni salvate con successo!</p></div>';
+         echo '<div class="notice notice-success"><p>Settings saved successfully!</p></div>';
     }
 
-    // Recupera il valore corrente
+    // Retrieve current values
     $remove_jquery_migrate = get_option('trp_ps_jquery_migrate', 0);
     $jquery_in_footer = get_option('trp_ps_jquery_in_footer', 0);
     $speculation_rules = get_option('trp_ps_speculation_rules', 0);
@@ -110,7 +110,7 @@ function trp_ps_plugin_option_page_html() {
     // Current user ID
     $current_user_id = get_current_user_id();
 
-    // Recupera tutti gli utenti amministratori del sito escluso l'utente corrente e il "super admin"
+    // Retrieve all site administrators excluding the current user and "super admin"
     $administrators = get_users(
         array(
             'role__in' => 'administrator',
@@ -128,7 +128,7 @@ function trp_ps_plugin_option_page_html() {
             
             <table class="form-table">
                 <tr>
-                    <th scope="row">Gestione Super Admin</th>
+                    <th scope="row">Manage Super Admin</th>
                     <td>
                         <select name="trp_ps_super_admin_users[]" multiple="multiple" style="min-width: 300px; min-height: 150px;">
                             <?php foreach ($administrators as $user) : ?>
@@ -140,7 +140,7 @@ function trp_ps_plugin_option_page_html() {
                             <?php endforeach; ?>
                         </select>
                         <p class="description">
-                            Seleziona gli altri utenti che vuoi rendere Super Admin. Usa CTRL+click per selezionare più utenti.
+                            Select other users you want to make Super Admin. Use CTRL+click to select multiple users.
                         </p>
                     </td>
                 </tr>

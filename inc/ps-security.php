@@ -59,9 +59,9 @@ trp_ps_whitelabel();
 trp_ps_xmlrpc_disable();
 
 
-//NASCONDO SUGGERIMENTI ERRORI WORDPRESS
+// HIDE WORDPRESS ERROR MESSAGES
 function trp_ps_hide_wordpress_errors(){
-	// return 'Nome utente o password errata.';
+	// return 'Incorrect username or password.';
 }
 add_filter( 'login_errors', 'trp_ps_hide_wordpress_errors' );
 
@@ -71,10 +71,10 @@ function trp_ps_is_super_admin() {
     return current_user_can('trp_super_admin') || current_user_can('trp_ps_admin');
 }
 
-//DISABILITO EDITOR VISUALE ACF
+// DISABLE ACF VISUAL EDITOR
 add_filter('acf/settings/show_admin', 'trp_ps_is_super_admin');
 
-//EDIT CAPABILIES FOR ADMINISTRATOR 
+// EDIT CAPABILITIES FOR ADMINISTRATOR
 function trp_ps_edit_role_caps() {
 	$current_user = wp_get_current_user();
 
@@ -84,7 +84,7 @@ function trp_ps_edit_role_caps() {
 
 	if( trp_ps_is_super_admin() ) {
 	
-		//ripristino capabilities
+		 // Restore capabilities
 		$current_user->add_cap( 'upload_themes', true );
 		$current_user->add_cap( 'install_themes', true );
 		$current_user->add_cap( 'switch_themes', true );
@@ -103,14 +103,14 @@ function trp_ps_edit_role_caps() {
 
 	} else {
 
-		//didsabilito editor tema e plugin
+		 // Disable theme and plugin editor
 		if (get_option('trp_ps_file_edit', 0)) {
             if (!defined('DISALLOW_FILE_EDIT')) {
                 define('DISALLOW_FILE_EDIT', TRUE);
             }
-		}
+		 }
 
-		//remove dangerous capability for other admin
+		 // Remove dangerous capabilities for other admins
 		if (get_option('trp_ps_manage_themes', 0)) {
 			$current_user->add_cap( 'upload_themes', false );
 			$current_user->add_cap( 'install_themes', false );

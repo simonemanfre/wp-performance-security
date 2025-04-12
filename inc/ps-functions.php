@@ -1,7 +1,7 @@
 <?php 
 defined( 'PERFORMANCE_SECURITY_PLUGIN_DIR' ) || exit; // Exit if accessed directly
 
-// Funzione per abilitare la debug mode
+// Function to enable debug mode
 function trp_ps_activate_debug_mode($scripts) {
     if (get_option('trp_ps_debug_mode', 0)) {
         if (!defined('WP_DEBUG')) {
@@ -17,7 +17,7 @@ function trp_ps_activate_debug_mode($scripts) {
 }
 add_action('wp_default_scripts', 'trp_ps_activate_debug_mode');
 
-// Funzione per rimuovere jQuery Migrate
+// Function to remove jQuery Migrate
 function trp_ps_remove_jquery_migrate($scripts) {
     if (get_option('trp_ps_jquery_migrate', 0)) {
         if (!is_admin() && isset($scripts->registered['jquery'])) {
@@ -30,7 +30,7 @@ function trp_ps_remove_jquery_migrate($scripts) {
 }
 add_action('wp_default_scripts', 'trp_ps_remove_jquery_migrate');
 
-// Funzione per spostare jQuery nel footer
+// Function to move jQuery to the footer
 function trp_ps_move_jquery_to_footer($wp_scripts) {
     if (get_option('trp_ps_jquery_in_footer', 0)) {
         if (!is_admin()) {
@@ -42,10 +42,10 @@ function trp_ps_move_jquery_to_footer($wp_scripts) {
 }
 add_action('wp_default_scripts', 'trp_ps_move_jquery_to_footer');
 
-// Funzione per aggiungere le regole di speculazione
+// Function to add speculation rules
 function trp_ps_add_speculation_rules() {
     if (get_option('trp_ps_speculation_rules', 0)) {
-        // PRERENDER GLOBALE ALL'HOVER
+        // GLOBAL PRERENDER ON HOVER
         echo '
         <script type="speculationrules">
         {
@@ -64,11 +64,11 @@ function trp_ps_add_speculation_rules() {
         </script>
         ';
 
-        // PRERENDER WOOCOMMERCE
+        // WOOCOMMERCE PRERENDER
         if( class_exists('woocommerce') ) {
             
             if(is_product()) {
-                // Prerender del carrello se sono in una pagina prodotto
+                // Prerender the cart if on a product page
                 $next_url = wc_get_cart_url();
 
                 echo '
@@ -85,7 +85,7 @@ function trp_ps_add_speculation_rules() {
             } 
 
             if(is_cart()) {
-                // Prerender del checkout se sono nel carrello
+                // Prerender the checkout if in the cart
                 $next_url = wc_get_checkout_url();
 
                 echo '
@@ -102,7 +102,7 @@ function trp_ps_add_speculation_rules() {
             } 
 
             if(is_checkout()) {
-                // Prerender del checkout se sono nel carrello
+                // Prerender the cart if in the checkout
                 $next_url = wc_get_cart_url();
                 
                 echo '
@@ -122,10 +122,10 @@ function trp_ps_add_speculation_rules() {
 }       
 add_action( 'wp_head', 'trp_ps_add_speculation_rules' ); 
 
-// Funzione per aggiungere il redirect HTTPS
+// Function to add HTTPS redirect
 if (get_option('trp_ps_https_redirect', 0)) {
     function trp_ps_add_https_redirect( $rules ) {
-        // Aggiungi nuove regole HTTPS
+        // Add new HTTPS rules
         $new_rules = "# BEGIN HTTPS\n";
         $new_rules .= "<IfModule mod_rewrite.c>\n";
         $new_rules .= "RewriteEngine On\n";
@@ -140,10 +140,9 @@ if (get_option('trp_ps_https_redirect', 0)) {
     add_filter('mod_rewrite_rules', 'trp_ps_add_https_redirect');
 }
 
-
 if (get_option('trp_ps_deflate_cache', 0)) {
     function trp_ps_add_deflate_cache( $rules ) {
-        $rules .= '# DEFLATE compressione
+        $rules .= '# DEFLATE compression
 <IfModule mod_deflate.c>
 # Compress HTML, CSS, JavaScript, Text, XML and fonts
 AddOutputFilterByType DEFLATE text/html
@@ -177,7 +176,7 @@ BrowserMatch ^Mozilla/4\.0[678] no-gzip
 BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
 Header append Vary User-Agent
 </IfModule>
-# FINE DEFLATE
+# END DEFLATE
 
 ## EXPIRES CACHING ##
 <IfModule mod_expires.c>
@@ -208,32 +207,32 @@ ExpiresByType application/x-shockwave-flash "access 1 month"
 }
 
 function trp_ps_htaccess_security( $rules ) {	
-	$rules .= '# SICUREZZA: XML RPC BLOCKING
+	$rules .= '# SECURITY: XML RPC BLOCKING
 <Files xmlrpc.php>
 Order Deny,Allow
 Deny from all
 </Files>
-# SICUREZZA: XML RPC BLOCKING
+# SECURITY: XML RPC BLOCKING
 
-# SICUREZZA: FILE SENSIBILI
+# SECURITY: SENSITIVE FILES
 <FilesMatch "(^\.|wp-config(-sample)*\.php)">
 	order deny,allow
 	deny from all
 </FilesMatch>
-# SICUREZZA: FILE SENSIBILI
+# SECURITY: SENSITIVE FILES
 
-# SICUREZZA: PHP ERRORS
+# SECURITY: PHP ERRORS
 <IfModule mod_php5.c>
 php_flag display_errors off
 </IfModule>
 <IfModule mod_php7.c>
 	php_flag display_errors off
 </IfModule>
-# SICUREZZA: PHP ERRORS
+# SECURITY: PHP ERRORS
 
-# SICUREZZA: LISTING PAGINE
+# SECURITY: PAGE LISTING
 Options -Indexes
-# SICUREZZA: LISTING PAGINE
+# SECURITY: PAGE LISTING
 ';
 
 	return $rules;
