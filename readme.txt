@@ -1,4 +1,4 @@
-=== Performance & Security ===
+=== Security & Performance ===
 Contributors: Simone Manfredini, Trapstudio  
 Tags: performance, security, WordPress  
 Requires at least: 5.0  
@@ -7,7 +7,7 @@ Stable tag: 0.0.1
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
-Performance & Security is a WordPress plugin designed to improve the performance and security of your website.
+Security & Performance is a WordPress plugin designed to improve the performance and security of your website.
 
 == Description ==
 
