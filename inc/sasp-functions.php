@@ -1,5 +1,5 @@
 <?php 
-defined( 'PERFORMANCE_SECURITY_PLUGIN_DIR' ) || exit; // Exit if accessed directly
+defined( 'SUPER_ADMIN_SECURITY_PERFORMANCE_PLUGIN_DIR' ) || exit; // Exit if accessed directly
 
 // Function to remove jQuery Migrate
 function trp_sasp_remove_jquery_migrate($scripts) {

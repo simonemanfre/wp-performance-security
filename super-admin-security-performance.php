@@ -21,15 +21,15 @@ GNU General Public License for more details.
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
-define( 'PERFORMANCE_SECURITY_PLUGIN_DIR', untrailingslashit( dirname( __FILE__ ) ) );
-define( 'PERFORMANCE_SECURITY_PLUGIN_URL', untrailingslashit( plugins_url( '', __FILE__ ) ) );
+define( 'SUPER_ADMIN_SECURITY_PERFORMANCE_PLUGIN_DIR', untrailingslashit( dirname( __FILE__ ) ) );
+define( 'SUPER_ADMIN_SECURITY_PERFORMANCE_PLUGIN_URL', untrailingslashit( plugins_url( '', __FILE__ ) ) );
 
 if( is_admin() ){
-    require PERFORMANCE_SECURITY_PLUGIN_DIR . '/inc/ps-admin.php';
+    require SUPER_ADMIN_SECURITY_PERFORMANCE_PLUGIN_DIR . '/inc/sasp-admin.php';
 }
 
-require_once PERFORMANCE_SECURITY_PLUGIN_DIR . '/inc/ps-functions.php';
-require_once PERFORMANCE_SECURITY_PLUGIN_DIR . '/inc/ps-security.php';
+require_once SUPER_ADMIN_SECURITY_PERFORMANCE_PLUGIN_DIR . '/inc/sasp-functions.php';
+require_once SUPER_ADMIN_SECURITY_PERFORMANCE_PLUGIN_DIR . '/inc/psasps-security.php';
 
 // Plugin activation
 function trp_sasp_plugin_activate() {
