@@ -26,68 +26,6 @@ function trp_sasp_move_jquery_to_footer($wp_scripts) {
 }
 add_action('wp_default_scripts', 'trp_sasp_move_jquery_to_footer');
 
-// Function to add speculation rules
-function trp_sasp_add_speculation_rules() {
-    if (get_option('trp_sasp_speculation_rules', 0)) {
-        // GLOBAL PRERENDER ON HOVER
-        echo esc_html('
-        <script type="speculationrules">
-        {
-            "prefetch": [{
-                "where": {
-                    "and": [
-                        { "href_matches": "/*" },
-                        { "not": {"href_matches": "/wp-admin"}},
-                        { "not": {"selector_matches": ".no-prerender"}},
-                        { "not": {"selector_matches": "[rel~=nofollow]"}}
-                    ]    
-                },
-                "eagerness": "moderate"
-            }]
-        }
-        </script>
-        ');
-
-        // WOOCOMMERCE PRERENDER
-        if (class_exists('woocommerce')) {
-            if (is_cart()) {
-                // Prerender the checkout if in the cart
-                $next_url = esc_url(wc_get_checkout_url());
-
-                echo esc_html('
-                <script type="speculationrules">
-                {
-                    "prerender": [
-                        {
-                        "urls": ["' . $next_url . '"]
-                        }
-                    ]
-                }
-                </script>
-                ');
-            }
-
-            if (is_checkout()) {
-                // Prerender the cart if in the checkout
-                $next_url = esc_url(wc_get_cart_url());
-
-                echo esc_html('
-                <script type="speculationrules">
-                {
-                    "prerender": [
-                        {
-                        "urls": ["' . $next_url . '"]
-                        }
-                    ]
-                }
-                </script>
-                ');
-            }
-        }
-    }
-}       
-add_action( 'wp_head', 'trp_sasp_add_speculation_rules' ); 
-
 // Function to add HTTPS redirect
 if (get_option('trp_sasp_https_redirect', 0)) {
     function trp_sasp_add_https_redirect( $rules ) {

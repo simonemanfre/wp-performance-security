@@ -22,7 +22,6 @@ add_action('admin_menu', 'trp_sasp_plugin_option_page');
 function trp_sasp_register_settings() {
     register_setting('trp_sasp_options', 'trp_sasp_jquery_migrate');
     register_setting('trp_sasp_options', 'trp_sasp_jquery_in_footer');
-    register_setting('trp_sasp_options', 'trp_sasp_speculation_rules');
     register_setting('trp_sasp_options', 'trp_sasp_https_redirect');
     register_setting('trp_sasp_options', 'trp_sasp_deflate_cache');
     register_setting('trp_sasp_options', 'trp_sasp_file_edit');
@@ -252,7 +251,6 @@ function trp_sasp_plugin_option_page_html() {
             // Sanitize and save performance settings
             update_option('trp_sasp_jquery_migrate', isset($_POST['trp_sasp_jquery_migrate']) ? 1 : 0);
             update_option('trp_sasp_jquery_in_footer', isset($_POST['trp_sasp_jquery_in_footer']) ? 1 : 0);
-            update_option('trp_sasp_speculation_rules', isset($_POST['trp_sasp_speculation_rules']) ? 1 : 0);
             update_option('trp_sasp_deflate_cache', isset($_POST['trp_sasp_deflate_cache']) ? 1 : 0);
 
             echo '<div class="notice notice-success"><p>' . esc_html__('Settings saved successfully!', 'super-admin-security-performance') . '</p></div>';
@@ -261,7 +259,6 @@ function trp_sasp_plugin_option_page_html() {
         // Retrieve current values
         $remove_jquery_migrate = get_option('trp_sasp_jquery_migrate', 0);
         $jquery_in_footer = get_option('trp_sasp_jquery_in_footer', 0);
-        $speculation_rules = get_option('trp_sasp_speculation_rules', 0);
         $deflate_cache = get_option('trp_sasp_deflate_cache', 0);
     ?>
 
@@ -286,15 +283,6 @@ function trp_sasp_plugin_option_page_html() {
                         <label>
                             <input type="checkbox" name="trp_sasp_jquery_in_footer" value="1" <?php checked(1, $jquery_in_footer); ?>>
                             <?php echo esc_html__('Load jQuery in footer instead of header', 'super-admin-security-performance'); ?>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row"><?php echo esc_html__('Speculation Rules', 'super-admin-security-performance'); ?></th>
-                    <td>
-                        <label>
-                            <input type="checkbox" name="trp_sasp_speculation_rules" value="1" <?php checked(1, $speculation_rules); ?>>
-                            <?php echo esc_html__('Enable speculation rules with prerender on link :hover', 'super-admin-security-performance'); ?>
                         </label>
                     </td>
                 </tr>

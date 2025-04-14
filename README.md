@@ -22,7 +22,7 @@ This plugin provides a set of tools to enhance your WordPress website's performa
 
 ## Features
 
-- **Performance Optimization**: Move jQuery to the footer, remove jQuery Migrate, and enable speculation rules.
+- **Performance Optimization**: Move jQuery to the footer, remove jQuery Migrate
 - **Security Enhancements**: Disable XML-RPC, hide WordPress error messages, and block sensitive files.
 - **Role Management**: Assign custom capabilities to administrators and manage super admin roles.
 
