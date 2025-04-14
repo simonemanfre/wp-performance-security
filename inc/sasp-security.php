@@ -1,4 +1,9 @@
 <?php
+// TRAPSTUDIO CHECK SUPER ADMIN
+function trp_sasp_is_super_admin() {
+    return current_user_can('trp_super_admin') || current_user_can('trp_sasp_admin');
+}
+
 function trp_sasp_whitelabel(){
 	remove_action('wp_head', 'rsd_link');
 	remove_action('wp_head', 'wp_generator');
@@ -63,11 +68,6 @@ function trp_sasp_hide_wordpress_errors() {
 }
 add_filter('login_errors', 'trp_sasp_hide_wordpress_errors');
 
-
-// TRAPSTUDIO CHECK SUPER ADMIN
-function trp_sasp_is_super_admin() {
-    return current_user_can('trp_super_admin') || current_user_can('trp_sasp_admin');
-}
 
 // DISABLE ACF VISUAL EDITOR
 add_filter('acf/settings/show_admin', 'trp_sasp_is_super_admin');
